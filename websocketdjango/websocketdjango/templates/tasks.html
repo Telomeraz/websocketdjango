@@ -1,0 +1,19 @@
+<div id="list">
+    {% for task in object_list %}
+        <h1>{{ task }}</h1>
+    {% endfor %}
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reconnecting-websocket/1.0.0/reconnecting-websocket.min.js"></script>
+<script language="javascript">
+    var ws_url = 'ws://' + window.location.host + '/tasks/';
+    var ticksSocket = new ReconnectingWebSocket(ws_url);
+
+    ticksSocket.onmessage = function(event) {
+        var data = JSON.parse(event.data);
+        console.log('data', data.new_task);
+        var node = document.createElement("h1");
+        var textnode = document.createTextNode(data.new_task);
+        node.appendChild(textnode);
+        document.getElementById("list").appendChild(node);
+    };
+</script>
