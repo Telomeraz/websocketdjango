@@ -3,7 +3,7 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-TEMPLATES_DIR = BASE_DIR / "websocketdjango/templates"
+TEMPLATES_DIR = BASE_DIR / "templates"
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -44,7 +44,18 @@ TEMPLATES = [
     },
 ]
 
-ASGI_APPLICATION = "websocketdjango.asgi.application"
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
+
+TASK_CHANNEL_GROUP = "TASK_GROUP"
+
+ASGI_APPLICATION = "websocketdjango.routing.application"
 
 WSGI_APPLICATION = "websocketdjango.wsgi.application"
 
